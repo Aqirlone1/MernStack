@@ -2,12 +2,14 @@ const fs = require('fs')
 const express = require('express')
 const  morgan = require('morgan')
 const productRouter = require('./routes/products')
+const userRouter = require('./routes/user')
 const server = express()
 
 server.use(express.json())
 server.use(morgan('default'))
 server.use(express.static('public'))
-server.use('/api/v1', productRouter.router)
+server.use('/products', productRouter.router)
+server.use('/users', userRouter.router)
 
 
 
