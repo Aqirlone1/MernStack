@@ -1,6 +1,7 @@
 const fs = require('fs')
 const express = require('express')
 const { json } = require('body-parser')
+const  morgan = require('morgan')
 
 
 
@@ -17,22 +18,38 @@ const server=express()
 // next()
 // })
 
-//middleware --
-const auth = (req,res,next) => {
-  console.log(req.query)
-  if(req.query.password==123) {
-    next()
-  }else {
-    res.sendStatus(401)
-  }
-  next()
-}
 
+//morgan
+
+
+server.use(morgan('dev'))
+
+
+//static hosting 
+
+server.use(express.static('public'))
+
+// Built in middleware or body parser
 // server.use(auth)
-//server.use(express.json())
-//server.use(express.json())
-//api endpoint
-server.get('/',auth, (req,res) =>{
+server.use(express.json())
+
+
+
+//middleware --
+// const auth = (req,res,next) => {
+//   console.log(req.query)
+//   if(req.query.password==123) {
+//     next()
+//   }else {
+//     res.sendStatus(401)
+//   }
+//   next()
+// }
+
+
+
+// -API -ENDPOINT -ROUTE
+server.get('/', (req,res) =>{
   res.json({type: 'GET'})
 })
 
