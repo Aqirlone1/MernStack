@@ -5,23 +5,23 @@ const data = JSON.parse(fs.readFileSync('data.json', 'utf-8'))
 const users = data.users
 
 
-exports.createProduct = (req, res) => {
+exports.createUser = (req, res) => {
   users.push(req.body)
   req.status(201).json(req.body)
 }
 
-exports.getAllProducts =  (req,res) =>{
+exports.getAllUser =  (req,res) =>{
   res.json(users)
   res.status(200).json(users)
 }
 
-exports.getProduct =  (req,res) => {
+exports.getUser =  (req,res) => {
   const id = +req.params.id
   const user = users.find(p => p.id === id)
   res.status(200).json(user)
 }
 
-exports.replaceProduct =  (req,res) => {
+exports.replaceUser =  (req,res) => {
   const id = +req.params.id
   const userIndex = users.findIndex(p => p.id === id)
   users.splice(userIndex,1,{...req.body, id: id})
@@ -29,7 +29,7 @@ exports.replaceProduct =  (req,res) => {
   res.status(201).json(userIndex)
 }
 
-exports.updateProduct =  (req,res) => {
+exports.updateUser =  (req,res) => {
   const id = +req.params.id
   const userIndex = users.findIndex(p => p.id === id)
   const user = users[userIndex]
@@ -38,7 +38,7 @@ exports.updateProduct =  (req,res) => {
   res.status(201).json(user)
 }
 
-exports.deleteProduct =  (req,res) => {
+exports.deleteUser =  (req,res) => {
   const id = +req.params.id
   const userIndex = users.findIndex(p => p.id === id)
   const user = users[userIndex]

@@ -4,11 +4,11 @@ const userController = require('../controller/user')
 
 
 router
-.post('/', userController.createProduct)
-.get('/', userController.getAllProducts)
-.get('/:id', userController.getProduct)
-.put('/:id', userController.replaceProduct)
-.patch('/:id', userController.updateProduct)
-.delete('/:id', userController.deleteProduct)
+.post('/', userController.createUser)
+.get('/', userController.getAllUser)
+.get('/:id', userController.getUser)
+.put('/:id', userController.replaceUser)
+.patch('/:id', userController.updateUser)
+.delete('/:id', userController.deleteUser)
 
 exports.router = router
