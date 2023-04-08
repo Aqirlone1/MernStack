@@ -11,8 +11,9 @@ const data = JSON.parse(fs.readFileSync('data.json', 'utf-8'))
 const products = data.products
 
 const server=express()
+server.use(express.json())
 
-//-----middleware-------
+//-----middleware------- runs on every request
 // server.use((req,res,next) =>{
 // console.log(req.method, req.ip, req.hostname)
 // next()
@@ -20,22 +21,19 @@ const server=express()
 
 
 //morgan
-
-
-server.use(morgan('dev'))
+//server.use(morgan('dev'))
 
 
 //static hosting 
 
-server.use(express.static('public'))
+//server.use(express.static('public'))
 
 // Built in middleware or body parser
 // server.use(auth)
-server.use(express.json())
 
 
+//middleware -- costum
 
-//middleware --
 // const auth = (req,res,next) => {
 //   console.log(req.query)
 //   if(req.query.password==123) {
@@ -48,13 +46,57 @@ server.use(express.json())
 
 
 
-// -API -ENDPOINT -ROUTE
-server.get('/', (req,res) =>{
-  res.json({type: 'GET'})
+// -API -ENDPOINT -ROUTE  -REST APR
+// Products collection
+
+
+//Create Api POST /products
+server.post('/products', (req,res) =>{
+  console.log(req.body)
+  products.push(req.body)
+  res.status(201).json(req.body)
 })
 
-server.post('/', (req,res) =>{
-  res.json({type: 'POST'})
+// Read GET products
+server.get('/products', (req,res) =>{
+  res.json(products)
+  res.status(200).json(products)
+})
+
+// Read GET products by id
+server.get('/products/:id', (req,res) => {
+  const id = +req.params.id
+  const product = products.find(p => p.id === id)
+  res.status(200).json(product)
+})
+
+// PUT products by id (UPDATE) overriders data
+server.put('/products/:id', (req,res) => {
+  const id = +req.params.id
+  const productIndex = products.findIndex(p => p.id === id)
+  products.splice(productIndex,1,{...req.body, id: id})
+  
+  res.status(201).json()
+})
+
+// PATCH products by id (UPDATE)
+server.patch('/products/:id', (req,res) => {
+  const id = +req.params.id
+  const productIndex = products.findIndex(p => p.id === id)
+  const product = products[productIndex]
+  products.splice(productIndex,1,{...product, ...req.body, id: id})
+  
+  res.status(201).json()
+})
+
+// DELETE products by id (DELETE) 
+server.delete('/products/:id', (req,res) => {
+  const id = +req.params.id
+  const productIndex = products.findIndex(p => p.id === id)
+  const product = products[productIndex]
+  products.splice(productIndex,1)
+  
+  res.status(201).json(product)
 })
 
 server.put('/', (req,res) =>{
